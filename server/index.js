@@ -30,6 +30,10 @@ app.use('/signUp', createChannel);
 app.use('/upload', uploadVideo);
 app.use('/video', getVideo);
 
+client.on('connect', function() {
+  console.log('connected');
+});
+
 client.on("error", function (err) {
   console.log("Error " + err);
 });
