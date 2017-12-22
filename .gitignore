@@ -39,13 +39,10 @@ bower_components/
 #IDE
 .idea
 
+
 #data
-<<<<<<< HEAD
 
-
-=======
 client/data/upload.txt
 client/data/channel.txt
 client/data/user.txt
->>>>>>> parent of 94281e2... updated data generating file
 
