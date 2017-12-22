@@ -1,0 +1,19 @@
+config:
+  target: "http://127.0.0.1:3000"
+  phases:
+    - duration: 4000
+      arrivalRate: 10
+scenarios:
+  - flow:
+      - log: "New virtual user running"
+      - get:
+          url: "/video/sxlzyyNKPQiIdcvG"
+      - post:
+          url: "/signUp"
+          json:
+            hello: "world"
+      - post:
+          url: "/upload"
+          json:
+            hello: "world"
+
