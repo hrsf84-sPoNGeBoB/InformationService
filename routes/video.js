@@ -18,31 +18,29 @@ const logger = new winston.Logger({
 
 
 
+
 router.get('/:id', function(req, res) {
   let id = req.params.id;
   logger.log('info', 'inside video endpoint');
 
 
   const producer = Producer.create({
-    queueUrl: 'https://sqs.us-east-2.amazonaws.com/126825225017/myoutput.fifo',
+    queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/output',
     region: 'us-east-2',
     accessKeyId: config.awsAccessKey,
     secretAccessKey: config.awsSecretAccessKey
   });
 
 
-  pool.query(`SELECT * FROM videos WHERE channel_id="${id}"`, function (err, result) {
+  pool.query(`SELECT videos.id, channels.channel_name, videos.publishedAt, videos.channel_id, videos.category_id, videos.title,videos.description, videos.thumbnails, videos.tags, videos.viewCount, videos.likeCount, videos.dislikeCount, videos.favoriteCount, videos.commentCount FROM videos INNER JOIN channels on videos.channel_id=channels.id Where channel_id="${id}"`, function (err, result) {
     if (err) { res.status(400).send(err); }
     logger.info('db fetched video info');
-    res.status(200).send(JSON.stringify(result));
     producer.send([{
       id: 'id1',
-      body: JSON.stringify(result),
-      groupId: 'group1234',
-      deduplicationId: 'abcdef123456'
+      body: JSON.stringify(result)
     }], function(err) {
       if (err) { console.log(err); }
-      res.status(200).send('data placed in queue');
+      res.status(200).send(result);
     });
 
   });

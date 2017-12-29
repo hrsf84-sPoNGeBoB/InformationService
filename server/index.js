@@ -7,8 +7,7 @@ var apm = require('elastic-apm-node').start({
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const redis = require("redis"),
-  client = redis.createClient();
+
 
 
 
@@ -30,16 +29,11 @@ app.use('/signUp', createChannel);
 app.use('/upload', uploadVideo);
 app.use('/video', getVideo);
 
-client.on('connect', function() {
-  console.log('connected');
-});
 
-client.on("error", function (err) {
-  console.log("Error " + err);
-});
-app.listen(PORT, function () { console.log('listening on port 3000!') });
+app.listen(PORT, function () { console.log('listening on port 3000!')});
 
 
 
 
-module.exports = app;
+module.exports = {app};
+

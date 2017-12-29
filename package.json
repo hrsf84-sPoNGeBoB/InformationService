@@ -5,7 +5,8 @@
   "main": "(server.js)",
   "scripts": {
     "start": "node server/index.js",
-    "db": "node db/db.js"
+    "db": "node db/db.js",
+    "test": "node ./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -35,5 +36,10 @@
     "sqs-producer": "^1.6.2",
     "winston": "^2.4.0",
     "winston-elasticsearch": "^0.5.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "supertest": "^3.0.0"
   }
 }

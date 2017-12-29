@@ -10,7 +10,7 @@ AWS.config.update({
 });
 
 const app = Consumer.create({
-  queueUrl: 'https://sqs.us-east-2.amazonaws.com/126825225017/myq.fifo',
+  queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/input',
   handleMessage: (message, done) => {
     axios.get(`http://localhost:3000/video/${message.Body}`)
       .then(function (response) {
@@ -30,3 +30,5 @@ app.on('error', (err) => {
 });
 
 app.start();
+
+module.exports = app;
