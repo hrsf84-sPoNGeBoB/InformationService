@@ -15,10 +15,6 @@ const logger = new winston.Logger({
   ]
 });
 
-
-
-
-
 router.get('/:id', function(req, res) {
   let id = req.params.id;
   logger.log('info', 'inside video endpoint');
