@@ -8,21 +8,16 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 
-
-
-
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(apm.middleware.express());
 
 
-
 //route files used by express router
 const uploadVideo = require('../routes/upload');
 const createChannel = require('../routes/signUp');
 const getVideo = require('../routes/video');
-
 
 
 app.use('/signUp', createChannel);

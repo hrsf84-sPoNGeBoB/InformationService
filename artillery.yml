@@ -11,9 +11,17 @@ scenarios:
       - post:
           url: "/signUp"
           json:
-            hello: "world"
+            user_email: "ab@asu.py",
+            channel_name: "cool channel"
+
       - post:
           url: "/upload"
           json:
-            hello: "world"
+            channel_id: "NIJHAnZzbXKyqmottvRrZh5xPDISrh",
+            category_id: "22",
+            title: "Ohariuwi vi foh fajma adi kafmozmi needibah div za foku piszojma no heli johez korhibug.",
+            description: "Munapu leh zego ukitol olanonur behwo siv ohezugu mata nesco juzi batto bokcoveb ehuhekdef.",
+            tags: ["tik", "wilweh", "kelfileg", "egcogop"],
+            publishedAt: "2017-12-19T01:13:38.196Z",
+            thumbnails: {"default": {"url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/default.jpg", "width": 120, "height": 90}}
 

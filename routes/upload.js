@@ -7,7 +7,6 @@ const Producer = require('sqs-producer');
 const client = redis.createClient();
 const config = require('../config');
 
-
 router.post('/', function(req, res) {
   const producer = Producer.create({
     queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/upload-output',
@@ -20,14 +19,14 @@ router.post('/', function(req, res) {
 
 
 
-  var thumbnails = JSON.stringify(req.body.thumbnails);
-  var tags = JSON.stringify(req.body.tags);
+  const thumbnails = JSON.stringify(req.body.thumbnails);
+  const tags = JSON.stringify(req.body.tags);
   const category_id = categoryMapper[req.body.category_id];
   const dbquery = `INSERT INTO videos (channel_id,category_id,title, description,tags,publishedAt,thumbnails,viewCount,likeCount,dislikeCount, favoriteCount, commentCount) VALUES ('${req.body.channel_id}','${category_id}','${req.body.title}','${req.body.description}','${tags}','${req.body.publishedAt}','${thumbnails}',${0},${0},${0},${0},${0})`;
   client.get(req.body.channel_id, function(err, reply) {
     // reply is null when the key is missing
     if (reply) {
-      var obj = {
+      const obj = {
         'id': req.body.channel_id,
         'channel_name': reply,
         'category_id': category_id,
@@ -55,7 +54,7 @@ router.post('/', function(req, res) {
     if (err) {
       res.status(400).send(err);
     } else {
-      res.status(201).send({response: 'successful insertion of new user'});
+      res.status(201).send({response: 'successful insertion of new video'});
     }
   });
 });

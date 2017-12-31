@@ -4,7 +4,9 @@
   "description": "The project description",
   "main": "(server.js)",
   "scripts": {
-    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "queue": "node server/server_helpers/queue_helper.js",
+    "start": "npm run server",
     "db": "node db/db.js",
     "test": "node ./node_modules/mocha/bin/mocha"
   },

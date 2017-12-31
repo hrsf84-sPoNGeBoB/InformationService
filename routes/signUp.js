@@ -16,7 +16,7 @@ router.post('/', function(req, res) {
     secretAccessKey: config.awsSecretAccessKey
   });
 
-  var checkIfExists = (generateID)=> {
+  const checkIfExists = (generateID)=> {
     return new Promise ((resolve, reject)=>{
       client.get(generateID, function(err, reply) {
         // reply is null when the key is missing
@@ -29,7 +29,7 @@ router.post('/', function(req, res) {
 
   };
 
-  var check = (generateID)=>{
+  const check = (generateID)=>{
     return checkIfExists(generateID).then(result=>{
       if (result === null) {
         return generateID;
@@ -46,7 +46,7 @@ router.post('/', function(req, res) {
     console.log(id, 'ID');
     if (typeof id === 'string') {
       client.set(id, req.body.channel_name, redis.print);
-      var obj = {
+      const obj = {
         'kind': 'youtube#channel',
         'channel_id': id,
         'channel_name': req.body.channel_name,
@@ -66,11 +66,11 @@ router.post('/', function(req, res) {
       });
       pool.query(`SELECT id FROM users WHERE user_email='${req.body.user_email}'`, function(err, result) {
         if (err) { res.status(400).send(err); }
-        var queryStr = `INSERT INTO channels (id, user_id, channel_name,viewCount,subscriberCount,videoCount) VALUES ('${id}', '${result[0].id}', '${req.body.channel_name}'
+        const queryStr = `INSERT INTO channels (id, user_id, channel_name,viewCount,subscriberCount,videoCount) VALUES ('${id}', '${result[0].id}', '${req.body.channel_name}'
         ,${0},${0},${0})`;
         pool.query(queryStr, function(error, results) {
           if (err) { res.status(400).send(error); }
-          res.status(201).send({response: 'successful insertion of sign up'});
+          res.status(201).send({response: 'successful insertion of new channel'});
         });
       });
 

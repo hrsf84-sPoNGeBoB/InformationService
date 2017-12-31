@@ -9,6 +9,8 @@ const config = require('../config');
 const esTransportOpts = {
   level: 'info'
 };
+
+
 const logger = new winston.Logger({
   transports: [
     new Elasticsearch(esTransportOpts)
@@ -31,8 +33,8 @@ router.get('/:id', function(req, res) {
   pool.query(`SELECT videos.id, channels.channel_name, videos.publishedAt, videos.channel_id, videos.category_id, videos.title,videos.description, videos.thumbnails, videos.tags, videos.viewCount, videos.likeCount, videos.dislikeCount, videos.favoriteCount, videos.commentCount FROM videos INNER JOIN channels on videos.channel_id=channels.id Where channel_id="${id}"`, function (err, result) {
     if (err) { res.status(400).send(err); }
     logger.info('db fetched video info');
-    var resultObj = result[0];
-    var obj = {
+    const resultObj = result[0];
+    const obj = {
       'kind': 'youtube#video',
       'id': id,
       'snippet': {
