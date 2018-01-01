@@ -1,18 +1,20 @@
+const config = require('../config');
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/db.js');
 const categoryMapper = require('../server/server_helpers/category_mapper');
 const redis = require('redis');
 const Producer = require('sqs-producer');
-const client = redis.createClient();
-const config = require('../config');
+const client = redis.createClient({
+  host: (config.REDIS_HOST || '127.0.0.1')
+});
 
 router.post('/', function(req, res) {
   const producer = Producer.create({
     queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/upload-output',
     region: 'us-east-2',
-    accessKeyId: config.awsAccessKey,
-    secretAccessKey: config.awsSecretAccessKey
+    accessKeyId: process.env.awsAccessKey,
+    secretAccessKey: process.env.awsSecretAccessKey
   });
 
   //Inside the /upload endpoint, the channel_name mapped to the submitted channel_id is retrieved from Redis.

@@ -1,17 +1,20 @@
-var apm = require('elastic-apm-node').start({
-  appName: 'youtube',
-  secretToken: '',
-  serverUrl: '',
-});
+// const config = require('../config');
+// var apm = require('elastic-apm-node').start({
+//   appName: 'youtube',
+//   secretToken: '',
+//   serverUrl: '',
+// });
 
+require('dotenv').load();
 const express = require('express');
 const app = express();
+const path = require('path');
 const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(apm.middleware.express());
+//app.use(apm.middleware.express());
 
 
 //route files used by express router
@@ -26,8 +29,6 @@ app.use('/video', getVideo);
 
 
 app.listen(PORT, function () { console.log('listening on port 3000!')});
-
-
 
 
 module.exports = {app};

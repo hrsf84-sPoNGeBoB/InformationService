@@ -1,19 +1,21 @@
+const config = require('../config');
 const express = require('express');
 const router = express.Router();
 const pool = require('../db/db.js');
 const redis = require('redis');
-const client = redis.createClient();
+const client = redis.createClient({
+  host: (config.REDIS_HOST || '127.0.0.1')
+});
 const Producer = require('sqs-producer');
 const randomString = require('../server/server_helpers/id_generator');
-const config = require('../config');
 
 
 router.post('/', function(req, res) {
   const producer = Producer.create({
     queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/signup-output',
     region: 'us-east-2',
-    accessKeyId: config.awsAccessKey,
-    secretAccessKey: config.awsSecretAccessKey
+    accessKeyId: process.env.awsAccessKey,
+    secretAccessKey: process.env.awsSecretAccessKey
   });
 
   const checkIfExists = (generateID)=> {

@@ -7,11 +7,12 @@ const apm = require('elastic-apm-node').start({
   secretToken: '',
   serverUrl: '',
 });
+require('dotenv').load();
 console.log('queue_helper running');
 AWS.config.update({
   region: 'us-east-2',
-  accessKeyId: config.awsAccessKey,
-  secretAccessKey: config.awsSecretAccessKey
+  accessKeyId: process.env.awsAccessKey,
+  secretAccessKey: process.env.awsSecretAccessKey
 });
 
 const app = Consumer.create({

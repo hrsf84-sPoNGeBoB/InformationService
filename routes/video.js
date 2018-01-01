@@ -5,7 +5,7 @@ const winston = require('winston');
 const Producer = require('sqs-producer');
 const AWS = require('aws-sdk');
 const Elasticsearch = require('winston-elasticsearch');
-const config = require('../config');
+//const config = require('../config');
 const esTransportOpts = {
   level: 'info'
 };
@@ -25,8 +25,8 @@ router.get('/:id', function(req, res) {
   const producer = Producer.create({
     queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/video-output',
     region: 'us-east-2',
-    accessKeyId: config.awsAccessKey,
-    secretAccessKey: config.awsSecretAccessKey
+    accessKeyId: process.env.awsAccessKey,
+    secretAccessKey: process.env.awsSecretAccessKey
   });
 
 

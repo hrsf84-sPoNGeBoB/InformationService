@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+     - "3000:3000"
+
+  db:
+   image: mysql:5.7
+   volumes:
+     - db_data:/var/lib/mysql
+   restart: always
+   environment:
+     MYSQL_ROOT_PASSWORD: password
+     MYSQL_DATABASE: youtube
+     MYSQL_USER: root
+     MYSQL_PASSWORD: password
+
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_EXTRA_FLAGS=--maxmemory 100mb
+    networks:
+          sev:
+            ipv4_address: 172.20.128.5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.0.0
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.0.0
+    ports:
+      - 5601:5601
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5601"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+networks:
+  sev:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+
+
+volumes:
+    db_data:
