@@ -1,9 +1,5 @@
-// const config = require('../config');
-// var apm = require('elastic-apm-node').start({
-//   appName: 'youtube',
-//   secretToken: '',
-//   serverUrl: '',
-// });
+require('newrelic');
+const config = require('../config');
 
 require('dotenv').load();
 const express = require('express');
@@ -14,7 +10,7 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-//app.use(apm.middleware.express());
+
 
 
 //route files used by express router

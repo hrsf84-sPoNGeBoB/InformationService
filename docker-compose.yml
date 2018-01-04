@@ -8,14 +8,20 @@ services:
 
   db:
    image: mysql:5.7
-   volumes:
-     - db_data:/var/lib/mysql
+#   volumes:
+#     - db_data:/usr/local/mysql/data/
    restart: always
    environment:
      MYSQL_ROOT_PASSWORD: password
      MYSQL_DATABASE: youtube
      MYSQL_USER: root
      MYSQL_PASSWORD: password
+
+
+  web:
+   build: .
+   ports:
+    - "3000:3000"
 
   redis:
     image: 'redis:alpine'
@@ -25,7 +31,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
       - REDIS_EXTRA_FLAGS=--maxmemory 100mb
     networks:
-          sev:
+          app:
             ipv4_address: 172.20.128.5
 
   elasticsearch:
@@ -52,12 +58,12 @@ services:
 
 
 networks:
-  sev:
+  app:
     ipam:
       driver: default
       config:
         - subnet: 172.20.0.0/16
 
 
-volumes:
-    db_data:
+#volumes:
+#    db_data:

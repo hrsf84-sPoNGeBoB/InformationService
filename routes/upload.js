@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db/db.js');
 const categoryMapper = require('../server/server_helpers/category_mapper');
+const randomString = require('../server/server_helpers/id_generator');
 const redis = require('redis');
 const Producer = require('sqs-producer');
 const client = redis.createClient({
@@ -54,10 +55,9 @@ router.post('/', function(req, res) {
 
   pool.query(dbquery, function(err, result, fields) {
     if (err) {
-      res.status(400).send(err);
-    } else {
-      res.status(201).send({response: 'successful insertion of new video'});
+      return res.status(400).send(err);
     }
+    return res.status(201).send({response: 'successful insertion of new video'});
   });
 });
 

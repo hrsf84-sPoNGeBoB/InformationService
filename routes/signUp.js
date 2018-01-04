@@ -9,8 +9,8 @@ const client = redis.createClient({
 const Producer = require('sqs-producer');
 const randomString = require('../server/server_helpers/id_generator');
 
-
 router.post('/', function(req, res) {
+
   const producer = Producer.create({
     queueUrl: 'https://sqs.us-east-2.amazonaws.com/909358229808/signup-output',
     region: 'us-east-2',
@@ -59,6 +59,7 @@ router.post('/', function(req, res) {
           'videoCount': '0'
         }
       };
+      console.log(obj, 'object');
       producer.send([{
         id: 'id1',
         body: JSON.stringify(obj)
@@ -66,18 +67,31 @@ router.post('/', function(req, res) {
         if (err) { console.log(err); }
         console.log('signup data sent to output queue');
       });
+
+
+
       pool.query(`SELECT id FROM users WHERE user_email='${req.body.user_email}'`, function(err, result) {
-        if (err) { res.status(400).send(err); }
-        const queryStr = `INSERT INTO channels (id, user_id, channel_name,viewCount,subscriberCount,videoCount) VALUES ('${id}', '${result[0].id}', '${req.body.channel_name}'
+        if (err) { return res.status(400).send(err); }
+        console.log(result, 'result inside db');
+        if (result) {
+          if (result.length > 0) {
+            const queryStr = `INSERT INTO channels (id, user_id, channel_name,viewCount,subscriberCount,videoCount) VALUES ('${id}', '${result[0].id}', '${req.body.channel_name}'
         ,${0},${0},${0})`;
-        pool.query(queryStr, function(error, results) {
-          if (err) { res.status(400).send(error); }
-          res.status(201).send({response: 'successful insertion of new channel'});
-        });
+            pool.query(queryStr, function(error, results) {
+              if (err) { return res.status(400).send(error); }
+              return res.status(201).send({response: 'successful insertion of new channel'});
+            });
+          } else {
+            return res.status(400).send('no result obj');
+          }
+
+        } else {
+          return res.status(400).send('no result obj');
+        }
       });
 
     } else {
-      res.status(401).send({response: 'error'});
+      return res.status(401).send({response: 'error'});
     }
   })
     .catch(err=> console.log(err));
