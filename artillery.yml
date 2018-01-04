@@ -1,19 +1,29 @@
 config:
   target: "http://127.0.0.1:3000"
+  processor: "./test/load-test-data.js"
   phases:
-    - duration: 4000
-      arrivalRate: 10
+    - duration: 5
+      arrivalRate: 1000
 scenarios:
   - flow:
+      - function: "generateRandomData"
       - log: "New virtual user running"
       - get:
           url: "/video/sxlzyyNKPQiIdcvG"
       - post:
           url: "/signUp"
           json:
-            hello: "world"
+            user_email: "{{email}}"
+            channel_name: "cool channel"
+
       - post:
           url: "/upload"
           json:
-            hello: "world"
+            channel_id: "{{channel_id}}"
+            category_id: "{{id_num}}"
+            title: "Ohariuwi vi foh fajma adi kafmozmi needibah div za foku piszojma no heli johez korhibug."
+            description: "Munapu leh zego ukitol olanonur behwo siv ohezugu mata nesco juzi batto bokcoveb ehuhekdef."
+            tags: '["tik", "wilweh", "kelfileg", "egcogop"]'
+            publishedAt: "2017-12-19T01:13:38.196Z"
+            thumbnails: '{"default": {"url": "https://i.ytimg.com/vi/Ks-_Mh1QhMc/default.jpg", "width": 120, "height": 90}}'
 

@@ -2,16 +2,19 @@ const mysql = require('mysql');
 const createTables = require('./schema.js');
 const config = require('../config');
 
+console.log('initializing DB');
+
 const pool = mysql.createPool({
-  connectionLimit: 100,
-  host: 'mysqldb.coxqxml1wk9k.us-east-2.rds.amazonaws.com',
+  connectionLimit: 2000,
+  connectTimeout: 20000,
+  aquireTimeout: 60 * 60 * 1000,
+  timeout: 60 * 60 * 1000,
+  host: config.SQL_HOST || 'localhost',
   port: 3306,
-  user: config.dbUsername,
-  password: config.dbPassword,
-  database: 'mysqldb'
+  user: process.env.dbUsername,
+  password: process.env.dbPassword,
+  database: 'youtube'
 });
-
-
 
 
 module.exports = pool;

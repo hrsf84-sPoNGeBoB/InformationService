@@ -1,4 +1,4 @@
-const channel_mapper = require('../../server/server_helpers/channel_mapper');
+const channel_mapper = require('../../server/server_helpers/category_mapper');
 const Chance = require('chance');
 const chance = new Chance();
 
